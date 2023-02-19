@@ -1,0 +1,9 @@
+.vs/
+.vscode/
+node_modules/
+
+.DS_Store
+$RECYCLE.BIN/
+Desktop.ini
+Thumbs.db
+ehthumbs.db

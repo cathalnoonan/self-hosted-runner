@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+
+  # To configure multiple runners for the repository, use the following command
+  # where "runner" is the name of the service below, and "5" is the number of runners to create.
+  #     docker compose up --scale runner=5
+  runner:
+    build:
+      context: ./runner
+      dockerfile: Dockerfile
+    environment:
+      - GITHUB_HOST=github.com
+      - GITHUB_API_HOST=api.github.com
+
+      # Enter your username and the repository here
+      - OWNER=
+      - REPOSITORY=
+
+      # Personal Access Token should be generated with: "Administration (Read and write)".
+      # See: https://docs.github.com/en/rest/overview/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#administration
+      - PAT_TOKEN=
+    volumes:
+      # Mount docker.sock so that containers can spawn other containers on the host machine.
+      # Note: This is NOT a true docker-in-docker.
+      # Note: This may present security risks.
+      - /var/run/docker.sock:/var/run/docker.sock:ro
