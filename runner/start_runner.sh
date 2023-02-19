@@ -27,7 +27,7 @@ get_regiration_token() {
 }
 
 get_regiration_token
-./config.sh --url https://$GITHUB_HOST/$OWNER/$REPOSITORY --token $registration_token
+./config.sh --url https://$GITHUB_HOST/$OWNER/$REPOSITORY --token $registration_token --disableupdate
 registration_token=''
 
 # Use a trap function to remove the runners when the container is stopped.

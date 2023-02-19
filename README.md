@@ -32,17 +32,24 @@ services:
   runner:
     # ...
     environment:
+      # Default values
       - GITHUB_HOST=github.com
       - GITHUB_API_HOST=api.github.com
+
+      # Required values
       - OWNER=<your_username>
       - REPOSITORY=<your_repository_name>
       - PAT_TOKEN=<your_personal_access_token>
+
+      # Optional values
+      - GITHUB_ACTION_RUNNER_VERSION=<leave_blank_for_latest>
 ```
 
 | Key name | Description | Example value |
 |:---|:---|:---|
 | GITHUB_HOST | Enter the GitHub URL. | `github.com` |
 | GITHUB_API_HOST | Enter the GitHub API URL. | `api.github.com` |
+| GITHUB_ACTION_RUNNER_VERSION | Version of the GitHub action runner to install. <br/>Leave blank to use the latest version. | (blank) or version, e.g. `2.302.1` |
 | OWNER | Enter your GitHub username. | `cathalnoonan` |
 | REPOSITORY | Enter the name of the repository where the runner(s) should be registered. | `self-hosted-runner` |
 | PAT_TOKEN | Enter the Personal Access Token created in the steps above. | `github_pat_ABCDEF...` |
@@ -54,6 +61,10 @@ The following commands should be run at the root directory of the cloned reposit
   ```sh
   docker compose build
   ```
+  - To avoid the build cache, instead run:
+    ```sh
+    docker compose build --no-cache
+    ```
 
 - Starting a single runner:
   ```sh

@@ -11,6 +11,7 @@ services:
     environment:
       - GITHUB_HOST=github.com
       - GITHUB_API_HOST=api.github.com
+      - GITHUB_ACTION_RUNNER_VERSION=
 
       # Enter your username and the repository here
       - OWNER=

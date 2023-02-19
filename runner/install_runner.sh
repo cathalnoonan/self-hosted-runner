@@ -3,7 +3,7 @@ set -e
 
 os=""
 arch=""
-runner_version=""
+runner_version="$GITHUB_ACTION_RUNNER_VERSION"
 
 if [[ "$os" == "" ]]; then
     case "$OSTYPE" in
