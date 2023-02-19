@@ -26,6 +26,18 @@ The Personal Access Token should be given the following permission(s) in the rep
     [Refer to this link for more information about permissions.](https://docs.github.com/en/rest/overview/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#administration)
 
 Open the `docker-compose.yml` file in a text editor, and enter the required information underneath the `environment` section:
+```yml
+version: '3.9'
+services:
+  runner:
+    # ...
+    environment:
+      - GITHUB_HOST=github.com
+      - GITHUB_API_HOST=api.github.com
+      - OWNER=<your_username>
+      - REPOSITORY=<your_repository_name>
+      - PAT_TOKEN=<your_personal_access_token>
+```
 
 | Key name | Description | Example value |
 |:---|:---|:---|
@@ -58,7 +70,7 @@ The following commands should be run at the root directory of the cloned reposit
   docker compose down
   ```
 
-## Important note about using docker
+## Important note about using docker in the self-hosted runner
 Running docker commands inside the self-hosted runner will not operate as a 'docker in docker' scenario.
 Instead, the containers that are created will use the host's docker engine to spawn the containers.
 
