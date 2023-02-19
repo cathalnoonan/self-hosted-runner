@@ -2,6 +2,10 @@ name: Push
 
 on:
   push:
+    paths:
+      - '.github/workflows/push.yml'
+      - 'runner/**'
+      - 'docker-compose.yml'
 
 jobs:
   build:
