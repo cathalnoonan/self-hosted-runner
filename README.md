@@ -43,6 +43,7 @@ services:
 
       # Optional values
       - GITHUB_ACTION_RUNNER_VERSION=<leave_blank_for_latest>
+      - CUSTOM_LABELS=<leave_blank_to_not_add_additional_labels>
 ```
 
 | Key name | Description | Example value |
@@ -53,6 +54,7 @@ services:
 | OWNER | Enter your GitHub username. | `cathalnoonan` |
 | REPOSITORY | Enter the name of the repository where the runner(s) should be registered. | `self-hosted-runner` |
 | PAT_TOKEN | Enter the Personal Access Token created in the steps above. | `github_pat_ABCDEF...` |
+| CUSTOM_LABELS | Enter any **additional** labels that should be added to the runner. | `Ubuntu-22.04,docker` |
 
 ## Starting and stopping runners
 The following commands should be run at the root directory of the cloned repository.

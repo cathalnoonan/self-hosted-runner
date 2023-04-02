@@ -20,6 +20,10 @@ services:
       # Personal Access Token should be generated with: "Administration (Read and write)".
       # See: https://docs.github.com/en/rest/overview/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#administration
       - PAT_TOKEN=
+
+      # Add custom labels in a csv format.
+      # These labels will be appended to the default labels added to the runner.
+      - CUSTOM_LABELS=container,Ubuntu,Ubuntu-22.04,docker
     volumes:
       # Mount docker.sock so that containers can spawn other containers on the host machine.
       # Note: This is NOT a true docker-in-docker.

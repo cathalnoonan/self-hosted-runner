@@ -7,6 +7,7 @@ GITHUB_HOST=$GITHUB_HOST
 OWNER=$OWNER
 REPOSITORY=$REPOSITORY
 PAT_TOKEN=$PAT_TOKEN
+CUSTOM_LABELS=$CUSTOM_LABELS
 
 # Move to the correct folder to run the scripts.
 cd /actions-runner
@@ -26,8 +27,13 @@ get_regiration_token() {
     registration_token=$( echo $registration_token_json | sed -n 's|.*"token": "\([^"]*\)".*|\1|p' )
 }
 
+label_argument=""
+if [[ "$CUSTOM_LABELS" != "" ]]; then
+    label_argument="--labels $CUSTOM_LABELS"
+fi
+
 get_regiration_token
-./config.sh --url https://$GITHUB_HOST/$OWNER/$REPOSITORY --token $registration_token --disableupdate
+./config.sh --url https://$GITHUB_HOST/$OWNER/$REPOSITORY --token $registration_token --disableupdate $label_argument
 registration_token=''
 
 # Use a trap function to remove the runners when the container is stopped.
