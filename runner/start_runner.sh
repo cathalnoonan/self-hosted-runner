@@ -27,9 +27,13 @@ get_regiration_token() {
     registration_token=$( echo $registration_token_json | sed -n 's|.*"token": "\([^"]*\)".*|\1|p' )
 }
 
+# Prepare labels
+. /etc/os-release
 label_argument=""
 if [[ "$CUSTOM_LABELS" != "" ]]; then
-    label_argument="--labels $CUSTOM_LABELS"
+    label_argument="--labels $ID,$ID-$VERSION-$ID,$CUSTOM_LABELS"
+else
+    label_argument="--labels $ID,$ID-$VERSION-$ID"
 fi
 
 get_regiration_token
