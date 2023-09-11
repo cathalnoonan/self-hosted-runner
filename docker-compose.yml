@@ -8,10 +8,7 @@ services:
     build:
       context: ./runner
       dockerfile: Dockerfile
-      args:
-        - BASE_IMAGE=ubuntu:22.04
-        #- BASE_IMAGE=debian:11
-        #- BASE_IMAGE=fedora:37
+    runtime: sysbox-runc
     environment:
       - GITHUB_HOST=github.com
       - GITHUB_API_HOST=api.github.com
@@ -28,8 +25,3 @@ services:
       # Add custom labels in a csv format.
       # These labels will be appended to the default labels added to the runner.
       - CUSTOM_LABELS=container,docker
-    volumes:
-      # Mount docker.sock so that containers can spawn other containers on the host machine.
-      # Note: This is NOT a true docker-in-docker.
-      # Note: This may present security risks.
-      - /var/run/docker.sock:/var/run/docker.sock:ro

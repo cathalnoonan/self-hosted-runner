@@ -15,36 +15,52 @@ This repository contains the necessary configuration to run self-hosted runners 
     ```
 
 ## Setup
-Clone this repository.
+1. Install and configure `sysbox`
+   - Refer to [nesty/sysbox repo](https://github.com/nestybox/sysbox)
+   - Update `daemon.json` as required
+      ```json
+      {
+        // ...
+        "runtimes": {
+          "sysbox-runc": {
+            "path": "/usr/bin/sysbox-runc"
+          }
+        },
+        "userns-remap": "sysbox"
+        // ...
+      }
+      ```
 
-Before starting up the runners, you will need to create a Personal Access Token (PAT Token) in the GitHub user interface. \
-[Refer to this link for instructions to create a PAT Token.](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+1. Clone this repository.
 
-The Personal Access Token should be given the following permission(s) in the repository where you wish to use the runner:
-- `Administration (Read and write)`
-  - This permission is required to register self-hosted runners. \
-    [Refer to this link for more information about permissions.](https://docs.github.com/en/rest/overview/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#administration)
+1. Before starting up the runners, you will need to create a Personal Access Token (PAT Token) in the GitHub user interface. \
+   [Refer to this link for instructions to create a PAT Token.](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
-Open the `docker-compose.yml` file in a text editor, and enter the required information underneath the `environment` section:
-```yml
-version: '3.9'
-services:
-  runner:
-    # ...
-    environment:
-      # Default values
-      - GITHUB_HOST=github.com
-      - GITHUB_API_HOST=api.github.com
+1. The Personal Access Token should be given the following permission(s) in the repository where you wish to use the runner:
+   - `Administration (Read and write)`
+     - This permission is required to register self-hosted runners. \
+       [Refer to this link for more information about permissions.](https://docs.github.com/en/rest/overview/permissions-required-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28#administration)
 
-      # Required values
-      - OWNER=<your_username>
-      - REPOSITORY=<your_repository_name>
-      - PAT_TOKEN=<your_personal_access_token>
+1. Open the `docker-compose.yml` file in a text editor, and enter the required information underneath the `environment` section:
+   ```yml
+   version: '3.9'
+   services:
+     runner:
+       # ...
+       environment:
+         # Default values
+         - GITHUB_HOST=github.com
+         - GITHUB_API_HOST=api.github.com
 
-      # Optional values
-      - GITHUB_ACTION_RUNNER_VERSION=<leave_blank_for_latest>
-      - CUSTOM_LABELS=<leave_blank_to_not_add_additional_labels>
-```
+         # Required values
+         - OWNER=<your_username>
+         - REPOSITORY=<your_repository_name>
+         - PAT_TOKEN=<your_personal_access_token>
+
+         # Optional values
+         - GITHUB_ACTION_RUNNER_VERSION=<leave_blank_for_latest>
+         - CUSTOM_LABELS=<leave_blank_to_not_add_additional_labels>
+   ```
 
 | Key name | Description | Example value |
 |:---|:---|:---|
@@ -82,24 +98,3 @@ The following commands should be run at the root directory of the cloned reposit
   ```sh
   docker compose down
   ```
-
-## Important note about using docker in the self-hosted runner
-Running docker commands inside the self-hosted runner will not operate as a 'docker in docker' scenario.
-Instead, the containers that are created will use the host's docker engine to spawn the containers.
-
-This is done by mounting `/var/run/docker.sock` from the host machine to the runner container(s) inside `./docker-compose.yml`
-```yml
-version: '3.9'
-services:
-
-  runner:
-    # ...
-    volumes:
-      # Mount docker.sock so that containers can spawn other containers on the host machine.
-      # Note: This is NOT a true docker-in-docker.
-      # Note: This may present security risks.
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
-```
-
-**This may present security issues, so do not use self-hosted runners in a repo where you do not have control of the code that could be executed.**
