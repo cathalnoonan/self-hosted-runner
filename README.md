@@ -6,31 +6,55 @@ This repository contains the necessary configuration to run self-hosted runners 
   - Check if docker is installed by running the following command:
     ```sh
     docker --version
-    # Should see: "Docker version ..."
+    ```
+    ```sh
+    # Should see ab output like:
+    Docker version 24.0.6, build ed223bc
     ```
   - Check if docker compose is installed by running the following command:
     ```sh
     docker compose version
-    # Should see: "Docker compose version ..."
+    ```
+    ```sh
+    # Should see an output like:
+    Docker Compose version v2.21.0
     ```
 
-## Setup
-1. Install and configure `sysbox`
+- Install and configure `sysbox`
    - Refer to [nesty/sysbox repo](https://github.com/nestybox/sysbox)
    - Update `daemon.json` as required
-      ```json
+      ```jsonc
       {
-        // ...
+        // (omitted)
         "runtimes": {
           "sysbox-runc": {
             "path": "/usr/bin/sysbox-runc"
           }
         },
         "userns-remap": "sysbox"
-        // ...
+        // (omitted)
       }
       ```
+    - Check if the service is running
+       ```sh
+       sudo systemctl status sysbox
+       ```
+       ```sh
+       # Should see an output like:
+       user@hostname:~ $ sudo systemctl status sysbox
+       ● sysbox.service - Sysbox container runtime
+            Loaded: loaded (/lib/systemd/system/sysbox.service; enabled; vendor preset: enabled)
+            Active: active (running) since Mon 2023-09-11 19:09:17 IST; 1h 58min ago
+              Docs: https://github.com/nestybox/sysbox
+          Main PID: 911 (sh)
+             Tasks: 2 (limit: 37637)
+            Memory: 16.0M
+            CGroup: /system.slice/sysbox.service
+                    ├─ 911 /bin/sh -c /usr/bin/sysbox-runc --version && /usr/bin/sysbox-mgr --version && /usr/bin/sysbox-fs --version && /bin/sleep infinity
+                    └─1027 /bin/sleep infinity
+       ```
 
+## Setup
 1. Clone this repository.
 
 1. Before starting up the runners, you will need to create a Personal Access Token (PAT Token) in the GitHub user interface. \
